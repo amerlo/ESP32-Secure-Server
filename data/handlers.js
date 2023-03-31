@@ -5,7 +5,7 @@ $(function() {
             var item = `<li id="${relay.id}" class="list-group-item">
                 <div class="row">
                     <div class="col-10">
-                        <label class="form-check-label">${relay.name} - GPIO ${relay.gpio}</label>
+                        <label class="form-check-label">${relay.name} - <i>GPIO ${relay.gpio}</i></label>
                     </div>
                     <div class="col-2 d-flex justify-content-center">
                         <div class="spinner visually-hidden" style="width: 30px;">
