@@ -1,6 +1,6 @@
 #include "serverHandlers.h"
 
-void serverStart(httpsserver::HTTPSServer * secureServer) {
+void serverStart(HTTPSServer * secureServer) {
     Serial.print("Starting server...");
     secureServer->start();
     if (secureServer->isRunning()) {
@@ -8,7 +8,7 @@ void serverStart(httpsserver::HTTPSServer * secureServer) {
     }
 }
 
-void middlewareAuthentication(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res, std::function<void()> next) {
+void middlewareAuthentication(HTTPRequest * req, HTTPResponse * res, std::function<void()> next) {
     if (req->getBasicAuthUser() == USERNAME && req->getBasicAuthPassword() == PASSWORD) {
         next();
     } else {
@@ -19,7 +19,7 @@ void middlewareAuthentication(httpsserver::HTTPRequest * req, httpsserver::HTTPR
     }
 }
 
-void handleIndex(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res) {
+void handleIndex(HTTPRequest * req, HTTPResponse * res) {
     try {
         res->setHeader("Content-Type", "text/html");
         setResponseContent(res, "/index.html");
@@ -28,7 +28,7 @@ void handleIndex(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res
     }
 }
 
-void handleScript(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res) {
+void handleScript(HTTPRequest * req, HTTPResponse * res) {
     try {
         res->setHeader("Content-Type", "application/javascript");
         setResponseContent(res, "/handlers.js");
@@ -37,7 +37,7 @@ void handleScript(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * re
     }
 }
 
-void handleRelaysStatus(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res) {
+void handleRelaysStatus(HTTPRequest * req, HTTPResponse * res) {
     try {
         const size_t jsonSize = JSON_ARRAY_SIZE(NUM_RELAYS) + NUM_RELAYS * JSON_OBJECT_SIZE(6);
         //StaticJsonDocument<jsonSize> doc; --> Should be faster! Test it!
@@ -60,7 +60,7 @@ void handleRelaysStatus(httpsserver::HTTPRequest * req, httpsserver::HTTPRespons
     }
 }
 
-void handleRelayUpdate(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res) {
+void handleRelayUpdate(HTTPRequest * req, HTTPResponse * res) {
     try {
         const size_t jsonSize = JSON_OBJECT_SIZE(2) + 16;
         //StaticJsonDocument<jsonSize> doc; --> Should be faster! Test it!
@@ -88,6 +88,6 @@ void handleRelayUpdate(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse
     }
 }
 
-void handle404(httpsserver::HTTPRequest * req, httpsserver::HTTPResponse * res) {
+void handle404(HTTPRequest * req, HTTPResponse * res) {
     res->setStatusCode(404);
 }
