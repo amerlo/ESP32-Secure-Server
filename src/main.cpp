@@ -26,7 +26,8 @@ void setup() {
   
   spiffsInitialization();
   wifiConnection(WIFI_SSID, WIFI_PASS);
-  // dynamicDNSInitialization(DUCKDNS_DOMAIN, DUCKDNS_TOKEN);
+  dynamicDNSInitialization(DUCKDNS_DOMAIN, DUCKDNS_TOKEN);
+  dynamicDNSUpdate(DUCKDNS_UPDATE_INTERVAL);
 
   secureServer.registerNode(new ResourceNode("/", "GET", &handleIndex));
   secureServer.registerNode(new ResourceNode("/handlers.js", "GET", &handleScript));
