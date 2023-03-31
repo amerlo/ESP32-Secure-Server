@@ -3,7 +3,6 @@
 #include <SSLCert.hpp>
 #include <HTTPSServer.hpp>
 
-// TODO: Use real certificate (Letsencrypt for duckDNS url?)
 #include "ssl/cert.h"
 #include "ssl/private_key.h"
 
