@@ -49,3 +49,11 @@ void dynamicDNSUpdate(int interval) {
   EasyDDNS.update(interval);
   Serial.println(" Done!");
 }
+
+void dynamicDNSUpdateLoop(unsigned long * lastUpdateTime, int interval) {
+  unsigned long currentTime = millis();
+  if(currentTime - *lastUpdateTime > interval) {
+    *lastUpdateTime = currentTime;
+    dynamicDNSUpdate(interval);
+  }
+}
