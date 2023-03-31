@@ -15,6 +15,8 @@ using namespace httpsserver;
 SSLCert cert = SSLCert(example_crt_DER, example_crt_DER_len, example_key_DER, example_key_DER_len);
 HTTPSServer secureServer = HTTPSServer(&cert);
 
+unsigned long DUCKDNS_UPDATE_TIME = millis();
+
 void setup() {
   Serial.begin(115200);
   Serial.println("\n");
@@ -41,7 +43,7 @@ void setup() {
 }
 
 void loop() {
+  dynamicDNSUpdateLoop(&DUCKDNS_UPDATE_TIME, DUCKDNS_UPDATE_INTERVAL);
   secureServer.loop();
-  // dynamicDNSUpdate(60);
   delay(1);
 }
