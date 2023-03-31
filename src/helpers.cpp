@@ -9,7 +9,7 @@ void spiffsInitialization() {
   Serial.println(" Done!");
 }
 
-void setResponseContent(httpsserver::HTTPResponse * res, String filePath) {
+void setResponseContent(HTTPResponse * res, String filePath) {
   File file = SPIFFS.open(filePath);
   
   if(!file){
