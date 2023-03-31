@@ -15,6 +15,8 @@ using namespace httpsserver;
 SSLCert cert = SSLCert(example_crt_DER, example_crt_DER_len, example_key_DER, example_key_DER_len);
 HTTPSServer secureServer = HTTPSServer(&cert);
 
+unsigned long DUCKDNS_UPDATE_TIME = millis();
+
 void setup() {
   Serial.begin(115200);
   Serial.println("\n");
@@ -26,7 +28,8 @@ void setup() {
   
   spiffsInitialization();
   wifiConnection(WIFI_SSID, WIFI_PASS);
-  // dynamicDNSInitialization(DUCKDNS_DOMAIN, DUCKDNS_TOKEN);
+  dynamicDNSInitialization(DUCKDNS_DOMAIN, DUCKDNS_TOKEN);
+  dynamicDNSUpdate(DUCKDNS_UPDATE_INTERVAL);
 
   secureServer.registerNode(new ResourceNode("/", "GET", &handleIndex));
   secureServer.registerNode(new ResourceNode("/handlers.js", "GET", &handleScript));
@@ -40,7 +43,7 @@ void setup() {
 }
 
 void loop() {
+  dynamicDNSUpdateLoop(&DUCKDNS_UPDATE_TIME, DUCKDNS_UPDATE_INTERVAL);
   secureServer.loop();
-  // dynamicDNSUpdate(60);
   delay(1);
 }

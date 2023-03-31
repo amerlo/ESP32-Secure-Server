@@ -44,8 +44,16 @@ void dynamicDNSInitialization(const char * domain, const char * token) {
   Serial.println(" Done!");
 }
 
-void dynamicDNSUpdate(int seconds) {
+void dynamicDNSUpdate(int interval) {
   Serial.print("Updating Dynamic DNS...");
-  EasyDDNS.update(seconds * 1000);
+  EasyDDNS.update(interval);
   Serial.println(" Done!");
+}
+
+void dynamicDNSUpdateLoop(unsigned long * lastUpdateTime, int interval) {
+  unsigned long currentTime = millis();
+  if(currentTime - *lastUpdateTime > interval) {
+    *lastUpdateTime = currentTime;
+    dynamicDNSUpdate(interval);
+  }
 }
