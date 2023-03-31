@@ -60,21 +60,11 @@ void handleRelaysStatus(HTTPRequest * req, HTTPResponse * res) {
 
 void handleRelayUpdate(HTTPRequest * req, HTTPResponse * res) {
     try {
-        const size_t jsonSize = JSON_OBJECT_SIZE(2) + 16;
-        //StaticJsonDocument<jsonSize> doc; --> Should be faster! Test it!
-        DynamicJsonDocument doc(jsonSize);
+        byte buffer[RELAY_UPDATE_JSON_SIZE];
+        req->readBytes(buffer, RELAY_UPDATE_JSON_SIZE);
 
-        char * buffer = new char[jsonSize + 1];
-        memset(buffer, 0, jsonSize + 1);
-
-        size_t idx = 0;
-        while (!req->requestComplete() && idx < jsonSize) {
-            idx += req->readChars(buffer + idx, jsonSize-idx);
-        }
-
+        StaticJsonDocument<RELAY_UPDATE_JSON_SIZE> doc;
         deserializeJson(doc, buffer);
-
-        delete[] buffer;
 
         int relayId = doc["id"];
         uint8_t relayState = doc["value"] ? LOW : HIGH;
