@@ -39,9 +39,7 @@ void handleScript(HTTPRequest * req, HTTPResponse * res) {
 
 void handleRelaysStatus(HTTPRequest * req, HTTPResponse * res) {
     try {
-        const size_t jsonSize = JSON_ARRAY_SIZE(NUM_RELAYS) + NUM_RELAYS * JSON_OBJECT_SIZE(6);
-        //StaticJsonDocument<jsonSize> doc; --> Should be faster! Test it!
-        DynamicJsonDocument doc(jsonSize);
+        StaticJsonDocument<RELAYS_STATUS_JSON_SIZE> doc;
         JsonArray arr = doc.to<JsonArray>();
 
         for(int i = 0; i < NUM_RELAYS; i++) {
