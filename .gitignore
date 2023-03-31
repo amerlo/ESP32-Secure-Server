@@ -2,5 +2,5 @@
 .vscode
 
 # Sensitive information
-src/constants.h
-src/ssl
+include/constants.h
+include/ssl
